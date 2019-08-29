@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "keywordList.h"
+#include "quickSort.h"
 
 int main(void)
 {
@@ -12,10 +13,13 @@ int main(void)
 	char* fileName = "tedtalk.txt";
 	saveKeywords(&keywordList, fileName);
 
-	Search("this", &keywordList);
+	//Search("this", &keywordList);
 
-	printf("\n");
+	//printf("\n");
+	//printList(&keywordList);
+
+	SortByFrequency(&keywordList);
+
 	printList(&keywordList);
-
 	return 0;
 }

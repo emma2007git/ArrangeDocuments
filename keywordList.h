@@ -1,13 +1,9 @@
 #ifndef __KEYWORD_LIST__
 #define __KEYWORD_LIST__
 
-/*
-char* auxil_beVerb_article[26] = { "a","an", "A","An", "the",
-"The", "is", "are", "was", "were", "am", "will", "would"
-, "can","Can", "could","Could", "may","May", "might", "should",
-"Should","need", "Need","shall", "Shall"};
-char symbol_arr[100] = { '.', '?', '!',',', '~', '#', '&'};
-*/
+
+//char symbol_arr[100] = { '.', '?', '!',',', '~', '#', '&'};
+
 typedef struct keyword
 {
 	char keyword[100];
@@ -45,9 +41,10 @@ void saveKeywords(KeywordList* keywordList, char* fileName);
 void deleteSymbol(char* word);
 
 //키워드를 목록에서 지우기
+//Keyword delete(KeywordList* keywordList);
 
 //빈도수 기준으로 정렬
-//void SortByFrequency(KeywordList* keywordList);
+void SortByFrequency(KeywordList* keywordList);
 
 //가나다순으로 정렬
 //void SortByAlphabeticalOrder();

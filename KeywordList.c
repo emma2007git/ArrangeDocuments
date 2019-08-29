@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "keywordList.h"
+#include "quickSort.h"
 
 void Init(KeywordList* keywordList)
 {
@@ -75,6 +76,12 @@ void printList(KeywordList* keywordList)
 	printf("\n출력 완료!!\n");
 }
 
+
+char* auxil_beVerb_article[26] = { "a","an", "A","An", "the",
+"The", "is", "are", "was", "were", "am", "will", "would"
+, "can","Can", "could","Could", "may","May", "might", "should",
+"Should","need", "Need","shall", "Shall" };
+
 void saveKeywords(KeywordList* keywordList, char* fileName)
 {
 	FILE* fp = fopen(fileName, "rt");
@@ -87,6 +94,7 @@ void saveKeywords(KeywordList* keywordList, char* fileName)
 	char* word = NULL;
 	char line[1000];
 	int flag = 0;
+	int aux = 0;
 
 	while (feof(fp) == 0)
 	{
@@ -97,6 +105,25 @@ void saveKeywords(KeywordList* keywordList, char* fileName)
 		while (word != NULL)
 		{
 			deleteSymbol(word);
+
+			
+			//be동사, 조동사, 관사인지 검사
+			for (int i = 0; i < 26; i++)
+			{
+				if (strcmp(word, auxil_beVerb_article[i]) == 0)
+				{
+					aux = 1;
+					break;
+				}
+			}
+			if (aux == 1)
+			{
+				flag = 0;
+				word = strtok(NULL, " ");
+				aux = 0;
+				continue;
+			}
+			//원래 있던 단어와 같은지 검사
 			for (int i = 0; i < keywordList->numOfKeywords; i++)
 			{
 				if (strcicmp(word, keywordList->keyword[i].keyword) == 0)
@@ -108,6 +135,7 @@ void saveKeywords(KeywordList* keywordList, char* fileName)
 				}
 			}
 
+			//같은 단어가 없다면 새로 저장
 			if (flag == 0)
 			{
 				if (isFull(keywordList))
@@ -155,4 +183,9 @@ int strcicmp(char const* a, char const* b)
 		if (d != 0 || !*a)
 			return d;
 	}
+}
+
+void SortByFrequency(KeywordList* keywordList)
+{
+	QuickSort(keywordList->keyword, 0, keywordList->numOfKeywords - 1);
 }
