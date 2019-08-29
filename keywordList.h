@@ -48,4 +48,7 @@ void SortByFrequency(KeywordList* keywordList);
 
 //가나다순으로 정렬
 //void SortByAlphabeticalOrder();
+
+//빈도수 1위 단어 출력
+void topFrequency(KeywordList* keywordList);
 #endif // !__KEYWORD_LIST__

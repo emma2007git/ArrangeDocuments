@@ -42,16 +42,17 @@ int expandList(KeywordList* keywordList)
 	return 0;
 }
 
+//대소문자 구별 없이 찾기
 void Search(char* searchWord, KeywordList* keywordList)
 {
 	int flag = 0;
 	for (int i = 0; i < keywordList->numOfKeywords; i++)
 	{
-		if (!strcmp(searchWord, keywordList->keyword[i].keyword))
+		if (!strcicmp(searchWord, keywordList->keyword[i].keyword))
 		{
 			printf("%s를 찾았습니다!!\n", searchWord);
 			printf("-단어 정보-\n");
-			printf("단어: %s\n", searchWord);
+			printf("단어: %s\n", keywordList->keyword[i].keyword);
 			printf("빈도수: %d\n", keywordList->keyword[i].frequency);
 			//printf("위치: %d번째 단어\n", keywordList->keyword[i].location);
 			flag = 1;
@@ -71,16 +72,35 @@ void printList(KeywordList* keywordList)
 	for (int i = 0; i < keywordList->numOfKeywords; i++)
 	{
 		//printf("%d - 단어: %s  위치: %d번째 단어\n", i + 1, keywordList->keyword[i].keyword, keywordList->keyword[i].location);
-		printf("%d - 단어: %10s 빈도수: %2d\n", i + 1, keywordList->keyword[i].keyword, keywordList->keyword[i].frequency);
+		printf("%3d - 단어: %15s     빈도수: %3d\n", i + 1, keywordList->keyword[i].keyword, keywordList->keyword[i].frequency);
 	}
 	printf("\n출력 완료!!\n");
 }
 
-
-char* auxil_beVerb_article[26] = { "a","an", "A","An", "the",
-"The", "is", "are", "was", "were", "am", "will", "would"
-, "can","Can", "could","Could", "may","May", "might", "should",
-"Should","need", "Need","shall", "Shall" };
+char* beverb[5] = { "is", "are", "was", "were", "am" };
+char* auxiliaryVerb[15] = { "will", "would", "can","Can","could",
+"Could", "may","May", "might", "should","Should","need", "Need","shall","Shall" };
+char* article[6] = { "a","an", "A","An", "the","The" };
+char* conjunction[46] = { "and","And","but", "But","or"
+,"Or","nor","Nor","for","For"
+,"so","So","yet","Yet","after"
+,"After","as","As","before","Before"
+,"since","Since","until","Until","when"
+,"When","whenever","Whenever","while","While"
+,"once","Once","because","Because","although"
+,"Although","though","Though","even","Even"
+,"whereas","Whereas","if","If","unless",
+"Unless" };
+char* preposition[48] = { "in","In","at","At","on"
+,"On","beneath","Beneath","between","Between"
+,"among","Among","to","To","into"
+,"Into","for","For","from","From"
+,"off","Off","across","Across","along"
+,"Along","through","Through","toward","Toward"
+,"towards","Towards","against","Against","during"
+,"During","within","Within","till","Till"
+,"untill","Untill","by","By" ,"of"
+,"Of","with","With"};
 
 void saveKeywords(KeywordList* keywordList, char* fileName)
 {
@@ -108,9 +128,45 @@ void saveKeywords(KeywordList* keywordList, char* fileName)
 
 			
 			//be동사, 조동사, 관사인지 검사
-			for (int i = 0; i < 26; i++)
+			for (int i = 0; i < 5; i++)
 			{
-				if (strcmp(word, auxil_beVerb_article[i]) == 0)
+				if (strcmp(word,beverb[i]) == 0)
+				{
+					aux = 1;
+					break;
+				}
+			}
+			if(aux != 1)
+			for (int i = 0; i < 15; i++)
+			{
+				if (strcmp(word, auxiliaryVerb[i]) == 0)
+				{
+					aux = 1;
+					break;
+				}
+			}
+			if (aux != 1)
+			for (int i = 0; i < 6; i++)
+			{
+				if (strcmp(word, article[i]) == 0)
+				{
+					aux = 1;
+					break;
+				}
+			}
+			if (aux != 1)
+			for (int i = 0; i < 46; i++)
+			{
+				if (strcmp(word, conjunction[i]) == 0)
+				{
+					aux = 1;
+					break;
+				}
+			}
+			if (aux != 1)
+			for (int i = 0; i < 48; i++)
+			{
+				if (strcmp(word, preposition[i]) == 0)
 				{
 					aux = 1;
 					break;
@@ -188,4 +244,22 @@ int strcicmp(char const* a, char const* b)
 void SortByFrequency(KeywordList* keywordList)
 {
 	QuickSort(keywordList->keyword, 0, keywordList->numOfKeywords - 1);
+}
+
+void topFrequency(KeywordList* keywordList)
+{
+	Keyword result;
+	result.frequency = 0;
+
+	for (int i = 0; i < keywordList->numOfKeywords; i++)
+	{
+		if (result.frequency < keywordList->keyword[i].frequency)
+		{
+			result.frequency = keywordList->keyword[i].frequency;
+			strcpy(result.keyword, keywordList->keyword[i].keyword);
+		}
+	}
+
+	printf("중요 단어: %s\n", result.keyword);
+	printf("빈도수: %d\n", result.frequency);
 }

@@ -13,13 +13,14 @@ int main(void)
 	char* fileName = "tedtalk.txt";
 	saveKeywords(&keywordList, fileName);
 
-	//Search("this", &keywordList);
+	Search("civilization", &keywordList);
 
-	//printf("\n");
-	//printList(&keywordList);
+	printf("\n");
 
 	SortByFrequency(&keywordList);
 
 	printList(&keywordList);
+
+	topFrequency(&keywordList);
 	return 0;
 }
