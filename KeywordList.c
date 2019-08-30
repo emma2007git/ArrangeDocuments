@@ -77,30 +77,6 @@ void printList(KeywordList* keywordList)
 	printf("\n출력 완료!!\n");
 }
 
-char* beverb[5] = { "is", "are", "was", "were", "am" };
-char* auxiliaryVerb[15] = { "will", "would", "can","Can","could",
-"Could", "may","May", "might", "should","Should","need", "Need","shall","Shall" };
-char* article[6] = { "a","an", "A","An", "the","The" };
-char* conjunction[46] = { "and","And","but", "But","or"
-,"Or","nor","Nor","for","For"
-,"so","So","yet","Yet","after"
-,"After","as","As","before","Before"
-,"since","Since","until","Until","when"
-,"When","whenever","Whenever","while","While"
-,"once","Once","because","Because","although"
-,"Although","though","Though","even","Even"
-,"whereas","Whereas","if","If","unless",
-"Unless" };
-char* preposition[48] = { "in","In","at","At","on"
-,"On","beneath","Beneath","between","Between"
-,"among","Among","to","To","into"
-,"Into","for","For","from","From"
-,"off","Off","across","Across","along"
-,"Along","through","Through","toward","Toward"
-,"towards","Towards","against","Against","during"
-,"During","within","Within","till","Till"
-,"untill","Untill","by","By" ,"of"
-,"Of","with","With"};
 
 void saveKeywords(KeywordList* keywordList, char* fileName)
 {
@@ -126,52 +102,8 @@ void saveKeywords(KeywordList* keywordList, char* fileName)
 		{
 			deleteSymbol(word);
 
-			
-			//be동사, 조동사, 관사인지 검사
-			for (int i = 0; i < 5; i++)
-			{
-				if (strcmp(word,beverb[i]) == 0)
-				{
-					aux = 1;
-					break;
-				}
-			}
-			if(aux != 1)
-			for (int i = 0; i < 15; i++)
-			{
-				if (strcmp(word, auxiliaryVerb[i]) == 0)
-				{
-					aux = 1;
-					break;
-				}
-			}
-			if (aux != 1)
-			for (int i = 0; i < 6; i++)
-			{
-				if (strcmp(word, article[i]) == 0)
-				{
-					aux = 1;
-					break;
-				}
-			}
-			if (aux != 1)
-			for (int i = 0; i < 46; i++)
-			{
-				if (strcmp(word, conjunction[i]) == 0)
-				{
-					aux = 1;
-					break;
-				}
-			}
-			if (aux != 1)
-			for (int i = 0; i < 48; i++)
-			{
-				if (strcmp(word, preposition[i]) == 0)
-				{
-					aux = 1;
-					break;
-				}
-			}
+			aux = deleteNeedlessWords(word);
+
 			if (aux == 1)
 			{
 				flag = 0;
@@ -262,4 +194,106 @@ void topFrequency(KeywordList* keywordList)
 
 	printf("중요 단어: %s\n", result.keyword);
 	printf("빈도수: %d\n", result.frequency);
+}
+
+int deleteNeedlessWords(char* word)
+{
+	char* beverb[5] = { "is", "are", "was", "were", "am" };
+	char* auxiliaryVerb[15] = { "will", "would", "can","Can","could",
+	"Could", "may","May", "might", "should","Should","need", "Need","shall","Shall" };
+	char* article[6] = { "a","an", "A","An", "the","The" };
+	char* conjunction[46] = { "and","And","but", "But","or"
+	,"Or","nor","Nor","for","For"
+	,"so","So","yet","Yet","after"
+	,"After","as","As","before","Before"
+	,"since","Since","until","Until","when"
+	,"When","whenever","Whenever","while","While"
+	,"once","Once","because","Because","although"
+	,"Although","though","Though","even","Even"
+	,"whereas","Whereas","if","If","unless",
+	"Unless" };
+	char* preposition[48] = { "in","In","at","At","on"
+	,"On","beneath","Beneath","between","Between"
+	,"among","Among","to","To","into"
+	,"Into","for","For","from","From"
+	,"off","Off","across","Across","along"
+	,"Along","through","Through","toward","Toward"
+	,"towards","Towards","against","Against","during"
+	,"During","within","Within","till","Till"
+	,"untill","Untill","by","By" ,"of"
+	,"Of","with","With" };
+
+	char* pronouns[78] = { "i", "I","my","My","me"
+	,"Me","mine","Mine","Myself","myself"
+	,"we","We","our","Our","us"
+	,"Us","ours","Ours","ourselves","Ourselves"
+	,"you","You","your","Your","yours"
+	,"Yours","yourself","Yourself","he","He"
+	,"his","His","him","Him","himself"
+	,"Himself","she","She","her","Her"
+	,"hers","Hers","Herself","herself","it"
+	,"It","its","Its","itself","Itself"
+	,"they","They","their","Their","them"
+	,"Them","theirs","Theirs","themselves","Themselves" 
+	,"who","Who","whose","Whose","whom"
+	,"Whom","which","Which","what","What"
+	,"that", "That","this","This","these"
+	,"These","those","Those"};
+
+	int aux = 0;
+	//be동사, 조동사, 관사인지 검사
+	for (int i = 0; i < 5; i++)
+	{
+		if (strcmp(word, beverb[i]) == 0)
+		{
+			aux = 1;
+			break;
+		}
+	}
+	if (aux != 1)
+		for (int i = 0; i < 15; i++)
+		{
+			if (strcmp(word, auxiliaryVerb[i]) == 0)
+			{
+				aux = 1;
+				break;
+			}
+		}
+	if (aux != 1)
+		for (int i = 0; i < 6; i++)
+		{
+			if (strcmp(word, article[i]) == 0)
+			{
+				aux = 1;
+				break;
+			}
+		}
+	if (aux != 1)
+		for (int i = 0; i < 46; i++)
+		{
+			if (strcmp(word, conjunction[i]) == 0)
+			{
+				aux = 1;
+				break;
+			}
+		}
+	if (aux != 1)
+		for (int i = 0; i < 48; i++)
+		{
+			if (strcmp(word, preposition[i]) == 0)
+			{
+				aux = 1;
+				break;
+			}
+		}
+	if (aux != 1)
+		for (int i = 0; i < 78; i++)
+		{
+			if (strcmp(word, pronouns[i]) == 0)
+			{
+				aux = 1;
+				break;
+			}
+		}
+	return aux;
 }

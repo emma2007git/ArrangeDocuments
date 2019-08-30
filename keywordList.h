@@ -51,4 +51,7 @@ void SortByFrequency(KeywordList* keywordList);
 
 //빈도수 1위 단어 출력
 void topFrequency(KeywordList* keywordList);
+
+//관사, 대명사 등등 필요 없는 단어 삭제
+int deleteNeedlessWords(char* word);
 #endif // !__KEYWORD_LIST__
